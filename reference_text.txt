@@ -47,3 +47,14 @@ LEFT JOIN authors ON books.authorId = authors.id;
 SELECT title, firstName, lastName
 FROM books
 RIGHT JOIN authors ON books.authorId = authors.id;
+
+
+use bamazon;
+
+create table departments (
+	department_id int auto_increment not null,
+    department_name varchar(40) not null,
+    over_head_costs decimal(10,3) not null DEFAULT 0,
+    primary key (department_id)
+    );
+    

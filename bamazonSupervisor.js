@@ -34,7 +34,6 @@ function afterConnection() {
         if (error) throw error;
         // console.log(results)
         let mergeTable = results;
-        let idArray = [];
         let deptArray = [];
         let overHeadArray = [];
         let stockArray = [];
@@ -76,17 +75,18 @@ function afterConnection() {
                     unique_head_array.push(overHeadArray[i])
                 }
             }
-            console.log(unique_head_array)
+            console.log("over head: " +unique_head_array)
         };
         // console.log(stockArray);
         rmvDplctStk();
         function rmvDplctStk() {
             for (let i = 0; i < stockArray.length; i++) {
                 if (unique_stock_array.indexOf(stockArray[i]) == -1) {
+                    
                     unique_stock_array.push(stockArray[i])
                 }
             }
-            console.log(unique_stock_array)
+            console.log("stock: " +unique_stock_array)
         };
 
         inquirer
@@ -113,30 +113,39 @@ function afterConnection() {
                     });
 
                     table.push(
-                        ['id', 'Department name', 'Overhead cost', 'product sales', 'money money money']
+                        ['id', 'Department name', 'stock_income', "over head", 'money money money']
                     );
-                    var newParamArr = [1, 2, 3, 4, 5];
-                    var paramVal = ["one", "two", "three", "four", "five"];
-
-                    //create an empty object to ensure it's the right type.
-                    var obj = {};
-
-                    //loop through the arrays using the first one's length since they're the same length
-                    for (var i = 0; i < newParamArr.length; i++) {
-                        //set the keys and values
-                        //avoid dot notation for the key in this case
-                        //use square brackets to set the key to the value of the array element
-                        obj[newParamArr[i]] = paramVal[i];
-                    }
-
-                    console.log(obj);
-                    // for (i = 0; i < unique_array; i++) {
-                    //     table.push([eyeD, unique_array[i], DeptInStore[i].over_head_costs, product_sales, (product_sales - DeptInStore[i].over_head_costs)]);
-                    //     eyeD++;
-                    // }
-
-                    // console.log(table.toString());
-                };
+                    let eyeD = 0;
+                    for (i = 0; i < unique_array.length; i++) {
+                        eyeD++;
+                        table.push([eyeD, unique_array[i], unique_stock_array[i],unique_head_array[i], (unique_stock_array[i]-unique_head_array[i])]);
+                    };
+                    console.log(table.toString());
+                    afterConnection();
+                }
+                else if (action == "Create New Department") {
+                    inquirer
+                        .prompt([
+                            {
+                                type: 'input',
+                                message: "\nWhat is the name of the new department? \n",
+                                name: 'deptName'
+                            },
+                            {
+                                type: 'input',
+                                message: '\nWhat is the over head cost? \n',
+                                name: 'overHead'
+                            }]).then(function (inquireResponse) {
+                                let post = { department_name: inquireResponse.deptName, over_head_costs: inquireResponse.overHead };
+                                connection.query('INSERT INTO departments SET ?', post, function (error, results, fields) {
+                                    afterConnection();
+                                });
+                            });
+                }
+                else if (action == 'Exit') {
+                    console.log('see ya later alligator');
+                    connection.end();
+                }
             })
 
     })
@@ -227,29 +236,29 @@ function afterConnection() {
     //                 if (err) throw err;
     //                 afterConnection();
     //             }
-    //             else if (action == "Create New Department") {
-    //                 inquirer
-    //                     .prompt([
-    //                         {
-    //                             type: 'input',
-    //                             message: "\nWhat is the name of the new department? \n",
-    //                             name: 'deptName'
-    //                         },
-    //                         {
-    //                             type: 'input',
-    //                             message: '\nWhat is the over head cost? \n',
-    //                             name: 'overHead'
-    //                         }]).then(function (inquireResponse) {
-    //                             let post = { department_name: inquireResponse.deptName, over_head_costs: inquireResponse.overHead };
-    //                             connection.query('INSERT INTO departments SET ?', post, function (error, results, fields) {
-    //                                 afterConnection();
-    //                             });
-    //                         });
-    //             }
-    //             else if (action == 'Exit') {
-    //                 console.log('Good bye');
-    //                 connection.end();
-    //             }
+                // else if (action == "Create New Department") {
+                //     inquirer
+                //         .prompt([
+                //             {
+                //                 type: 'input',
+                //                 message: "\nWhat is the name of the new department? \n",
+                //                 name: 'deptName'
+                //             },
+                //             {
+                //                 type: 'input',
+                //                 message: '\nWhat is the over head cost? \n',
+                //                 name: 'overHead'
+                //             }]).then(function (inquireResponse) {
+                //                 let post = { department_name: inquireResponse.deptName, over_head_costs: inquireResponse.overHead };
+                //                 connection.query('INSERT INTO departments SET ?', post, function (error, results, fields) {
+                //                     afterConnection();
+                //                 });
+                //             });
+                // }
+                // else if (action == 'Exit') {
+                //     console.log('Good bye');
+                //     connection.end();
+                // }
     //         });
     // });
 // }

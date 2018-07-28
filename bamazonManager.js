@@ -126,7 +126,7 @@ function afterConnection() {
                                     {
                                         type: 'list',
                                         message: "Which department? \n",
-                                        choices: ['Hiking', 'Running', 'Electronics'],
+                                        choices: ['Hiking', 'Running', 'Electronics','Climbing','Camping'],
                                         name: 'nameDept'
                                     },
                                     {

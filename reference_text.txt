@@ -57,4 +57,11 @@ create table departments (
     over_head_costs decimal(10,3) not null DEFAULT 0,
     primary key (department_id)
     );
+
+
+
+
+    SELECT department_id, departments.department_name, over_head_costs, products_sales
+FROM departments
+LEFT JOIN products ON departments.department_id = products.id;
     

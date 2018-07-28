@@ -143,7 +143,7 @@ function afterConnection() {
                             })
                     }
                 }
-                else {
+                else if(inquireResponse.action) {
                     exit();
                 }
             })

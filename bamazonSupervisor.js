@@ -52,7 +52,7 @@ function afterConnection() {
                     unique_array.push(deptArray[i])
                 }
             }
-            console.log(unique_array)
+            // console.log(unique_array)
         }
         for (i = 0; i < deptArray.length; i++) {
             let runningTally = 0;
@@ -75,7 +75,7 @@ function afterConnection() {
                     unique_head_array.push(overHeadArray[i])
                 }
             }
-            console.log("over head: " +unique_head_array)
+            // console.log("over head: " +unique_head_array)
         };
         // console.log(stockArray);
         rmvDplctStk();
@@ -86,7 +86,7 @@ function afterConnection() {
                     unique_stock_array.push(stockArray[i])
                 }
             }
-            console.log("stock: " +unique_stock_array)
+            // console.log("stock: " +unique_stock_array)
         };
 
         inquirer
